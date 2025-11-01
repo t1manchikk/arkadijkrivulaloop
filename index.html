@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Гра: підрахунок кліків</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: #fff;
+      margin: 0;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      background: #fff;
+      color: #0077ff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+    button:hover {
+      background: #e3f0ff;
+      transform: scale(1.05);
+    }
+    button:disabled {
+      background: #ccc;
+      color: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Підрахунок кліків з обмеженням</h1>
+  <div class="buttons">
+    <button class="game-btn">Кнопка 1</button>
+    <button class="game-btn">Кнопка 2</button>
+    <button class="game-btn">Кнопка 3</button>
+  </div>
+  <footer>
+    Створено за допомогою <a href="https://gptonline.ai/" target="_blank">gptonline.ai</a>
+  </footer>
+  <script>
+    function createClickCounter(limit = 6, button) {
+      let count = 0;
+      return function() {
+        if (count < limit) {
+          count++;
+          console.log(`Кнопка "${button.textContent}" — клік №${count}. Залишилось: ${limit - count}`);
+          if (count === limit) {
+            button.disabled = true;
+            button.textContent = "Ліміт вичерпано!";
+          }
+        }
+      };
+    }
+    document.querySelectorAll(".game-btn").forEach((btn) => {
+      const handler = createClickCounter(6, btn);
+      btn.addEventListener("click", handler);
+    });
+  </script>
+</body>
+</html>
